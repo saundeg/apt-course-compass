@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APT Course Compass - Course Team AI Maturity Diagnostic</title>
+<style>
+  :root {
+    --navy: #1F3864;
+    --navy-mid: #2E5FA3;
+    --navy-light: #D6E4F0;
+    --gold: #C8932A;
+    --gold-light: #FDF3E0;
+    --green: #1E7E34;
+    --green-light: #EAF4EA;
+    --red: #C0392B;
+    --red-light: #FDECEA;
+    --amber: #B7770D;
+    --amber-light: #FFF3CD;
+    --white: #FFFFFF;
+    --off-white: #F8F9FC;
+    --grey-light: #F0F2F7;
+    --grey-mid: #C8CDD8;
+    --grey-dark: #6B7280;
+    --text: #1A202C;
+    --text-mid: #4A5568;
+    --radius: 8px;
+    --shadow: 0 2px 12px rgba(31,56,100,0.10);
+    --shadow-lg: 0 8px 32px rgba(31,56,100,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--off-white); color: var(--text); font-size: 15px; line-height: 1.6; }
+
+  .partner-note { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 10px; line-height: 1.5; max-width: 700px; }
+  .partner-pill[title] { cursor: help; }
+
+  /* HEADER */
+  .header { background: var(--navy); color: white; padding: 28px 40px 24px; }
+  .header-inner { max-width: 900px; margin: 0 auto; }
+  .apt-badge { display: inline-flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+  .apt-logo { font-size: 28px; font-weight: 700; letter-spacing: -1px; color: white; }
+  .apt-sub { font-size: 13px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.08em; }
+  .header h1 { font-size: 22px; font-weight: 600; color: white; margin-bottom: 6px; }
+  .header p { font-size: 14px; color: rgba(255,255,255,0.75); max-width: 600px; }
+  .partner-strip { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+  .partner-pill { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.05em; }
+  .p-pill { background: rgba(200,147,42,0.25); color: #FFD580; }
+  .a-pill { background: rgba(100,80,200,0.25); color: #C8BBFF; }
+  .r-pill { background: rgba(30,126,52,0.2); color: #90EFA8; }
+  .t-pill { background: rgba(180,60,30,0.2); color: #FFBBA8; }
+  .n-pill { background: rgba(180,40,80,0.2); color: #FFB0C8; }
+  .e-pill { background: rgba(180,120,20,0.2); color: #FFD880; }
+  .r2-pill { background: rgba(30,126,52,0.2); color: #90EFA8; }
+
+  /* PROGRESS */
+  .progress-bar-wrap { background: var(--navy-light); height: 4px; }
+  .progress-bar { background: var(--gold); height: 4px; transition: width 0.4s ease; }
+  .progress-label { background: white; border-bottom: 1px solid var(--grey-mid); padding: 10px 40px; font-size: 13px; color: var(--grey-dark); display: flex; justify-content: space-between; align-items: center; }
+  .progress-label span { font-weight: 600; color: var(--navy); }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 32px 40px 60px; }
+
+  /* INTRO */
+  .intro-card { background: white; border-radius: var(--radius); border: 1px solid var(--grey-mid); padding: 32px; margin-bottom: 28px; box-shadow: var(--shadow); }
+  .intro-card h2 { font-size: 20px; color: var(--navy); margin-bottom: 12px; }
+  .intro-card p { color: var(--text-mid); margin-bottom: 12px; }
+  .intro-card p:last-child { margin-bottom: 0; }
+  .how-to { background: var(--gold-light); border-left: 4px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 18px; margin-top: 16px; font-size: 14px; color: var(--text); }
+  .how-to strong { color: var(--navy); }
+
+  /* DIMENSION CARD */
+  .dim-card { background: white; border-radius: var(--radius); border: 1px solid var(--grey-mid); padding: 28px; margin-bottom: 20px; box-shadow: var(--shadow); }
+  .dim-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+  .dim-badge { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: white; flex-shrink: 0; }
+  .dim-title-block { flex: 1; }
+  .dim-number { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey-dark); margin-bottom: 2px; }
+  .dim-title { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .dim-desc { font-size: 14px; color: var(--text-mid); }
+  .levels { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (max-width: 600px) { .levels { grid-template-columns: 1fr; } }
+  .level-option { position: relative; }
+  .level-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .level-label { display: block; border: 2px solid var(--grey-mid); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: all 0.2s; }
+  .level-label:hover { border-color: var(--navy-mid); background: var(--navy-light); }
+  .level-option input:checked + .level-label { border-color: var(--navy); background: var(--navy-light); }
+  .level-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .level-desc { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+  .level-tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-bottom: 6px; }
+  .tag-1 { background: var(--red-light); color: var(--red); }
+  .tag-2 { background: var(--amber-light); color: var(--amber); }
+  .tag-3 { background: var(--navy-light); color: var(--navy); }
+  .tag-4 { background: var(--green-light); color: var(--green); }
+
+  /* NAV BUTTONS */
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; }
+  .btn { padding: 12px 28px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-mid); }
+  .btn-secondary { background: white; color: var(--navy); border: 2px solid var(--grey-mid); }
+  .btn-secondary:hover { border-color: var(--navy); }
+  .btn-gold { background: var(--gold); color: white; font-size: 16px; padding: 14px 36px; }
+  .btn-gold:hover { background: #A87820; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* TEAM INFO */
+  .field-group { margin-bottom: 18px; }
+  .field-group label { display: block; font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .field-group input, .field-group select { width: 100%; padding: 10px 14px; border: 2px solid var(--grey-mid); border-radius: var(--radius); font-size: 14px; color: var(--text); transition: border 0.2s; font-family: inherit; }
+  .field-group input:focus, .field-group select:focus { outline: none; border-color: var(--navy-mid); }
+
+  /* REPORT */
+  .report { display: none; }
+  .report-header { background: var(--navy); color: white; padding: 32px 40px; border-radius: var(--radius) var(--radius) 0 0; }
+  .report-header h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .report-header p { font-size: 14px; color: rgba(255,255,255,0.7); }
+  .report-body { background: white; border: 1px solid var(--grey-mid); border-top: none; border-radius: 0 0 var(--radius) var(--radius); padding: 32px; }
+  .chart-section { display: flex; align-items: center; gap: 32px; margin-bottom: 32px; flex-wrap: wrap; }
+  .chart-wrap { flex-shrink: 0; }
+  .chart-legend { flex: 1; min-width: 200px; }
+  .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-text { font-size: 13px; color: var(--text-mid); }
+  .legend-score { font-size: 13px; font-weight: 700; margin-left: auto; }
+  .overall-score { text-align: center; padding: 20px; background: var(--navy-light); border-radius: var(--radius); margin-bottom: 28px; }
+  .overall-score .score-num { font-size: 48px; font-weight: 700; color: var(--navy); line-height: 1; }
+  .overall-score .score-label { font-size: 14px; color: var(--text-mid); margin-top: 4px; }
+  .overall-score .score-band { font-size: 15px; font-weight: 600; color: var(--navy); margin-top: 6px; }
+  .section-title { font-size: 17px; font-weight: 700; color: var(--navy); border-bottom: 2px solid var(--navy-light); padding-bottom: 8px; margin-bottom: 16px; margin-top: 28px; }
+  .dim-result { border: 1px solid var(--grey-mid); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .dim-result-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; }
+  .dim-result-header:hover { background: var(--off-white); }
+  .dim-result-badge { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; flex-shrink: 0; }
+  .dim-result-title { flex: 1; font-weight: 600; font-size: 15px; color: var(--navy); }
+  .dim-result-level { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .dim-result-body { padding: 0 16px 16px 60px; border-top: 1px solid var(--grey-light); }
+  .dim-result-body p { font-size: 14px; color: var(--text-mid); margin-top: 12px; margin-bottom: 8px; }
+  .action-list { list-style: none; }
+  .action-list li { font-size: 14px; color: var(--text); padding: 6px 0 6px 20px; position: relative; border-bottom: 1px solid var(--grey-light); }
+  .action-list li:last-child { border-bottom: none; }
+  .action-list li::before { content: "→"; position: absolute; left: 0; color: var(--navy-mid); font-weight: 700; }
+  .apt-link { display: inline-block; font-size: 12px; background: var(--navy-light); color: var(--navy); padding: 2px 8px; border-radius: 4px; margin-left: 6px; font-weight: 600; }
+  .priority-section { background: var(--gold-light); border: 1px solid #E8C060; border-radius: var(--radius); padding: 20px; margin-top: 24px; }
+  .priority-section h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .priority-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--gold); color: white; font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin: 4px 4px 4px 0; }
+  .print-btn { margin-top: 24px; }
+  .wbs-footer { background: var(--navy); color: rgba(255,255,255,0.7); font-size: 12px; padding: 16px 32px; border-radius: 0 0 var(--radius) var(--radius); text-align: center; }
+
+  /* UTILS */
+  .hidden { display: none; }
+  .text-center { text-align: center; }
+  canvas { max-width: 100%; }
+
+  @media print {
+    .btn, .nav-row, .print-btn { display: none; }
+    .report { display: block !important; }
+    .dim-result-body { display: block !important; }
+    body { background: white; }
+    /* force background colours to print - without this the navy header,
+       priority tags and score badges print as white-on-white and vanish */
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .progress-bar-wrap, .progress-label { display: none; }
+    .dim-result, .priority-section, .chart-section { break-inside: avoid; page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="apt-badge">
+      <span class="apt-logo">APT</span>
+      <span class="apt-sub">AI Partnered Teaching</span>
+    </div>
+    <h1>Course Compass - Course Team AI Maturity Diagnostic</h1>
+    <p>A structured self-assessment tool for course leaders and their teams at the University of Westminster</p>
+    <div class="partner-strip">
+      <span class="partner-pill p-pill" title="Package 1: Introduction to AI in Higher Education - understand AI’s transformative impact on higher education and what it may mean for your role as an educator">P Prepare</span>
+      <span class="partner-pill a-pill" title="Package 2: Foundations of Effective Teaching and Learning - ground AI integration in the principles that help to define good education">A Anchor</span>
+      <span class="partner-pill r-pill" title="Package 3: Integrating AI into Teaching Practices - put AI into practice by exploring its capabilities, limitations, and concrete applications">R Realise</span>
+      <span class="partner-pill t-pill" title="Package 4: Redesigning Courses and Assessments for the AI Era - redesign courses and assessments to be more meaningful, rigorous, and relevant">T Transform</span>
+      <span class="partner-pill n-pill" title="Package 5: Academic Integrity and AI Policies - explore academic integrity, institutional policy, and the ethical dimensions of AI use">N Navigate</span>
+      <span class="partner-pill e-pill" title="Package 6: The Future of AI in Education - look ahead to emerging AI developments and commit to continuous professional growth">E Evolve</span>
+      <span class="partner-pill r2-pill" title="Package 7: AI Tools for Teaching and Learning - learn about Westminster’s supported AI tools and how to use them confidently and responsibly">R Resources</span>
+      <p class="partner-note">PARTNER is the framework behind the APT course: seven elements of AI-informed teaching practice, one package for each, plus a subject-specific package for your school. Hover any element to see what it covers.</p>
+    </div>
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+<div class="progress-label">
+  <span id="progressLabel">Getting started</span>
+  <span id="progressCount">0 / 6 dimensions</span>
+</div>
+
+<div class="main">
+
+  <!-- INTRO -->
+  <div id="page-intro" class="intro-card">
+    <h2>Welcome to the APT Course Compass</h2>
+    <p>This diagnostic helps your course team understand where you currently are in integrating AI into your curriculum, and what to prioritise next. It covers six key dimensions of course-level AI maturity and takes approximately 20-30 minutes to complete as a team discussion.</p>
+    <p>The tool generates a personalised report with a maturity profile, priority areas, and specific suggested actions linked to Westminster resources and the APT course packages.</p>
+    <div class="how-to">
+      <strong>How to use this tool:</strong> Work through each dimension as a team - ideally with your course leader facilitating a brief discussion before selecting the level that best describes where your course currently sits. Be honest; the value is in accurate diagnosis, not in selecting the most flattering option.
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="field-group">
+        <label for="courseName">Course name</label>
+        <input type="text" id="courseName" placeholder="e.g. BA Business Management">
+      </div>
+      <div class="field-group">
+        <label for="leaderName">Course leader name</label>
+        <input type="text" id="leaderName" placeholder="e.g. Dr Sarah Jones">
+      </div>
+      <div class="field-group">
+        <label for="schoolName">School</label>
+        <select id="schoolName">
+          <option value="">Select your school</option>
+          <option>Applied Management</option>
+          <option>Finance and Accounting</option>
+          <option>Management and Marketing</option>
+          <option>Organisations, Economy and Society</option>
+          <option>Architecture and Cities</option>
+          <option>Computer Science and Engineering</option>
+          <option>Arts</option>
+          <option>Media and Communications</option>
+          <option>Humanities</option>
+          <option>Life Sciences</option>
+          <option>Social Sciences</option>
+          <option>Law</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label for="teamSize">Approximate team size</label>
+        <select id="teamSize">
+          <option value="">Select</option>
+          <option>2-5 colleagues</option>
+          <option>6-10 colleagues</option>
+          <option>11-20 colleagues</option>
+          <option>More than 20 colleagues</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="nav-row" style="justify-content:flex-end;">
+      <button class="btn btn-primary" onclick="startDiagnostic()">Begin diagnostic →</button>
+    </div>
+  </div>
+
+  <!-- DIMENSIONS -->
+  <div id="diagnostic-pages" class="hidden"></div>
+
+  <!-- REPORT -->
+  <div id="report-section" class="report">
+    <div class="report-header">
+      <h2 id="report-title">Course Compass Report</h2>
+      <p id="report-subtitle"></p>
+    </div>
+    <div class="report-body">
+      <div class="section-title">Overall maturity profile</div>
+      <div class="chart-section">
+        <div class="chart-wrap">
+          <canvas id="radarChart" width="300" height="300"></canvas>
+        </div>
+        <div class="chart-legend" id="chartLegend"></div>
+      </div>
+      <div class="overall-score">
+        <div class="score-num" id="overallScoreNum"></div>
+        <div class="score-label">Average maturity score (out of 4)</div>
+        <div class="score-band" id="overallBand"></div>
+      </div>
+
+      <div class="section-title">Dimension-by-dimension findings</div>
+      <div id="dimResults"></div>
+
+      <div class="priority-section">
+        <h3>🎯 Suggested priority areas for your course team</h3>
+        <div id="priorityTags"></div>
+        <p style="font-size:14px; color:var(--text-mid); margin-top:12px;" id="prioritySummary"></p>
+      </div>
+
+      <div class="section-title" style="margin-top:28px;">Next steps and Westminster resources</div>
+      <div id="nextSteps"></div>
+
+      <div class="section-title" style="margin-top:28px;">Evidence base and key references</div>
+      <div id="referencesSection"></div>
+    </div>
+    <div class="wbs-footer">
+      University of Westminster · AI Partnered Teaching (APT) · Course Compass · Generated <span id="reportDate"></span>
+    </div>
+    <div class="print-btn nav-row" style="justify-content:flex-end;">
+      <button class="btn btn-secondary" onclick="window.print()">🖨 Print / Save as PDF</button>
+      <button class="btn btn-primary" onclick="restartTool()">Start again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────
+const dimensions = [
+  {
+    id: "awareness",
+    title: "Awareness and Understanding",
+    desc: "How well the course team understands what AI can and cannot do in your discipline, and what your students are already doing with it.",
+    color: "#1A56A0",
+    aptRef: "Packages 1 & 6",
+    levels: [
+      { name: "Unaware", tag: "tag-1", desc: "The team has limited awareness of how AI tools are being used by students or in the relevant profession. AI has not been discussed at course team level." },
+      { name: "Emerging", tag: "tag-2", desc: "Some colleagues are aware of AI tools and their general implications, but understanding is patchy across the team. No shared picture of student AI use exists." },
+      { name: "Developing", tag: "tag-3", desc: "The team has a reasonable shared understanding of AI's capabilities and limitations. Evidence about student AI use (e.g. HEPI data) has been discussed at team level." },
+      { name: "Embedded", tag: "tag-4", desc: "The team has a detailed, discipline-specific understanding of AI's role, including how it is used in the relevant profession. Student AI use is regularly monitored and discussed." }
+    ],
+    findings: [
+      { level: 1, summary: "Your team is at the start of its AI awareness journey.", actions: ["Schedule a course team meeting specifically to discuss AI - what it is, what students are doing with it, and what it means for your discipline. APT Package 1 provides a good briefing.", "Ask colleagues to complete the APT course individually as a first step - this will build a shared baseline of understanding across the team.", "Complete Package 8 of the APT course - the subject-specific package for your discipline."] },
+      { level: 2, summary: "Awareness exists but is unevenly distributed across the team.", actions: ["Identify one or two colleagues who are most engaged with AI and ask them to share their knowledge at a team meeting - a 20-minute briefing can shift the whole team.", "Complete APT Package 1 as a team discussion activity, using the reflection questions to surface different perspectives.", "Use the HEPI 2026 Student Generative AI Survey data (95% of students using AI) as a conversation starter about the scale of the challenge."] },
+      { level: 3, summary: "The team has good shared awareness - the challenge now is deepening discipline-specific understanding.", actions: ["Go beyond general AI awareness to discipline-specific AI literacy: how is AI being used in your profession? The APT Subject Guide for your discipline is a starting point.", "Invite a practitioner from your discipline to discuss AI's role in the workplace at a team event.", "Review APT Package 6 for emerging developments - agentic AI and reasoning models are the next frontier that team awareness should extend to."] },
+      { level: 4, summary: "Your team has strong awareness - focus on keeping it current as the landscape evolves.", actions: ["Establish a regular (termly) 'AI update' item on course team agendas to maintain currency.", "Contribute your team's knowledge to the wider Westminster community via the ATLAS AI Special Interest Group.", "Consider whether your discipline-specific AI awareness could be formalised as part of the course's graduate attribute framework."] }
+    ]
+  },
+  {
+    id: "policy",
+    title: "Policy and Consistency",
+    desc: "Whether the team has shared, documented positions on AI use, disclosure requirements, and academic integrity that apply consistently across all modules in the course.",
+    color: "#72243E",
+    aptRef: "Package 5",
+    levels: [
+      { name: "Unaware", tag: "tag-1", desc: "Each module has its own (or no) approach to AI. Students receive inconsistent or contradictory messages about what is and is not permitted. No course-level AI policy exists." },
+      { name: "Emerging", tag: "tag-2", desc: "There is awareness that inconsistency is a problem, and some colleagues have developed their own module-level guidance. A course-level discussion has begun but not concluded." },
+      { name: "Developing", tag: "tag-3", desc: "A course-level position on AI use exists and has been communicated to students, even if some details are still being worked out. The team follows the Westminster AI Policy as a baseline." },
+      { name: "Embedded", tag: "tag-4", desc: "A clear, documented course-level AI policy exists, is consistently applied across all modules, and is reviewed annually. Students receive a single coherent message at induction and in all module handbooks." }
+    ],
+    findings: [
+      { level: 1, summary: "Inconsistency in AI policy is a significant risk for student experience and academic integrity.", actions: ["Make course-level AI policy a standing agenda item at the next two course team meetings - the goal is a single short position statement that all colleagues adopt.", "Read and circulate Westminster's AI Policy (November 2025) and the Guidance to Students on GenAI - these provide the baseline framework you need.", "Review APT Package 5 for a clear framing of the key policy questions: what counts as significant AI assistance, what disclosure is required, and what constitutes misconduct."] },
+      { level: 2, summary: "Good intent exists - the priority is turning discussion into a documented shared position.", actions: ["Draft a single-page Course AI Position Statement using the Westminster AI Policy as the framework. Bring it to the next team meeting for agreement.", "Agree consistent disclosure language to embed in all module handbooks - APT Package 5 provides suggested wording.", "Contact the University's LIDE team or the GenAI SIG for support in developing course-level AI guidance."] },
+      { level: 3, summary: "You have a course-level position - the focus now is on embedding it fully and making it student-facing.", actions: ["Review whether your AI policy is clearly visible to students in induction materials, all module handbooks, and assessment briefs - not just in one place.", "Ensure all colleagues are actively applying the policy consistently - a brief team discussion at the start of each academic year helps.", "Build in an annual review of the policy in line with the Westminster AI Policy review cycle."] },
+      { level: 4, summary: "Your policy framework is strong - focus on quality and currency.", actions: ["Share your course AI policy approach with the Westminster AI SIG as a model for other course teams.", "Ensure the policy is reviewed in light of any updates to the Westminster AI Policy (most recently November 2025).", "Consider whether your policy could be enhanced by incorporating student voice - consulting students on AI expectations builds shared ownership."] }
+    ]
+  },
+  {
+    id: "assessment",
+    title: "Assessment Design",
+    desc: "The extent to which assessments across the course have been reviewed and redesigned to remain meaningful, rigorous, and appropriate in light of AI capability.",
+    color: "#712B13",
+    aptRef: "Package 4",
+    levels: [
+      { name: "Unaware", tag: "tag-1", desc: "Assessments have not been reviewed through an AI lens. Most assessments could be substantially completed using currently available AI tools without meaningful student engagement." },
+      { name: "Emerging", tag: "tag-2", desc: "Some colleagues have begun reviewing or updating assessments. There is awareness of the problem but no systematic course-level approach to assessment review." },
+      { name: "Developing", tag: "tag-3", desc: "A systematic review of assessments has been undertaken. Some assessments have been redesigned; others are in progress. The team has a shared understanding of what makes assessments AI-resistant or AI-enhanced." },
+      { name: "Embedded", tag: "tag-4", desc: "All assessments have been reviewed through an AI lens. The course has a healthy mix of AI-resistant and AI-integrated assessments, with a clear rationale for each. Assessment design is reviewed annually." }
+    ],
+    findings: [
+      { level: 1, summary: "Assessment vulnerability to AI is the most urgent challenge for the course team to address.", actions: ["Begin with an honest audit: go through each assessment on the course and ask 'could a current AI tool (GPT-5, Claude, Gemini) substantially complete this without meaningful student engagement?' This audit alone often shifts team perspective.", "Focus first on your highest-stakes assessments - final year projects, dissertations, major coursework - and prioritise redesign there.", "Review APT Package 4 for a practical framework for assessment redesign, including the AI-Resistant Assignment Briefing Checklist."] },
+      { level: 2, summary: "Individual colleagues are doing good work - the challenge is making this systematic and shared.", actions: ["Establish a formal course-level assessment review as part of your next annual programme review, with AI vulnerability as an explicit criterion.", "Share what individual colleagues have already done - a 15-minute show-and-tell at a team meeting can rapidly spread good practice.", "Use the CUNY 'Seven Waves' framework (referenced in APT Package 4) to give the team a common language for where different assessments currently sit."] },
+      { level: 3, summary: "Good progress has been made - focus on completing the review and building in sustainability.", actions: ["Complete the review of any remaining unreformed assessments, prioritising those identified as most vulnerable in your audit.", "Introduce AI-integrated assessments alongside AI-resistant ones - ask students to critically evaluate AI-generated outputs as part of an assessed task.", "Document the rationale for each assessment design decision so that new colleagues joining the team can understand the approach."] },
+      { level: 4, summary: "Your assessment framework is strong - focus on ongoing quality and innovation.", actions: ["Share your assessment redesign approach at the ATLAS event or through the Westminster AI SIG.", "Explore more innovative assessment formats: real-time oral examination of AI use, process portfolios, live client projects.", "Review assessments annually against the capabilities of current AI models - what was AI-resistant in 2024 may not be in 2026."] }
+    ]
+  },
+  {
+    id: "literacy",
+    title: "Student AI Literacy",
+    desc: "Whether the course actively develops students' ability to use AI tools critically, responsibly, and effectively as a graduate competency, not just as a study aid.",
+    color: "#085041",
+    aptRef: "Packages 3 & 6",
+    levels: [
+      { name: "Unaware", tag: "tag-1", desc: "Student AI literacy is not addressed as a learning outcome. No teaching about responsible AI use, critical evaluation of AI outputs, or AI in the relevant profession occurs on the course." },
+      { name: "Emerging", tag: "tag-2", desc: "Some modules touch on AI literacy (e.g. a session on academic integrity and AI), but it is not systematically developed across the course or linked to graduate employability." },
+      { name: "Developing", tag: "tag-3", desc: "AI literacy is embedded in several modules and is linked to graduate employability. Students are taught to critically evaluate AI outputs and understand AI's role in their profession." },
+      { name: "Embedded", tag: "tag-4", desc: "AI literacy is a formal graduate attribute of the course, developed progressively across all years. Students graduate with demonstrated ability to use AI responsibly, critically, and professionally in their discipline." }
+    ],
+    findings: [
+      { level: 1, summary: "Developing student AI literacy is both a graduate employability imperative and a curriculum design priority.", actions: ["Add a session on AI literacy to Year 1 induction - what it is, what the university's expectations are, and what it means for their career. APT Package 1 provides the briefing material.", "Frame AI literacy explicitly as an employability skill in course documentation - the PwC 2026 data (62% wage premium for AI-skilled workers) is a compelling argument for students.", "Review APT Package 6 for the student AI literacy development framework, including practical strategies for fostering critical engagement with AI tools."] },
+      { level: 2, summary: "Good foundations exist in individual modules - the challenge is building progression across the course.", actions: ["Map where AI literacy is currently addressed across the course and identify the gaps - where is it absent in Years 2 and 3?", "Design a progressive AI literacy framework: foundational awareness in Year 1, critical application in Year 2, professional integration in Year 3.", "Connect AI literacy to discipline-specific professional requirements - AACSB, AMBA, and EQUIS all now expect this."] },
+      { level: 3, summary: "AI literacy is developing well - focus on formalising it as a graduate attribute and building in progression.", actions: ["Formalise AI literacy as a named graduate attribute in the course specification and map it explicitly to learning outcomes.", "Ensure AI literacy assessment is included somewhere in the course - students should be able to evidence this competency.", "Use the JISC AI Literacy Curriculum for Teaching and Learning (2025) as a framework for reviewing the depth and breadth of your provision."] },
+      { level: 4, summary: "Your AI literacy provision is exemplary - focus on sharing and continuing to innovate.", actions: ["Consider whether your approach to student AI literacy could be written up as a case study for Westminster or sector-wide sharing.", "Review the JISC National AI Centre resources annually to ensure your AI literacy framework reflects current best practice.", "Involve students in reviewing and co-designing the AI literacy elements of the course - student voice adds credibility and ownership."] }
+    ]
+  },
+  {
+    id: "professional",
+    title: "Professional and Sector Alignment",
+    desc: "Whether the course reflects how AI is actually being used in the relevant profession or sector, and whether this is made explicit to students.",
+    color: "#633806",
+    aptRef: "Package 8 & Subject Guide",
+    levels: [
+      { name: "Unaware", tag: "tag-1", desc: "The course does not address AI's role in the relevant profession. Curriculum content and learning outcomes do not reflect AI-driven changes in the sector." },
+      { name: "Emerging", tag: "tag-2", desc: "Some awareness of AI in the profession exists in the team, but this is not systematically reflected in curriculum content, guest speakers, or learning outcomes." },
+      { name: "Developing", tag: "tag-3", desc: "The course includes content on AI's role in the profession. Guest speakers from industry discuss AI. Learning outcomes reference relevant professional AI competencies." },
+      { name: "Embedded", tag: "tag-4", desc: "The course has a live, current picture of AI in the profession, updated regularly through industry engagement. AI-relevant professional competencies are formally mapped to learning outcomes and assessments." }
+    ],
+    findings: [
+      { level: 1, summary: "Students are preparing for a profession that is being transformed by AI - the curriculum needs to reflect this.", actions: ["Complete Package 8 of the APT course for your discipline - it provides an evidence-based overview of how AI is transforming your sector.", "Add one session per year to each level of the course on AI in the profession - this can be delivered by a visiting practitioner.", "Review learning outcomes against current professional body expectations - AACSB, AMBA, SRA, RIBA, and others are now explicitly addressing AI in accreditation standards."] },
+      { level: 2, summary: "Individual awareness exists - the challenge is making this systematic across the curriculum.", actions: ["Map where professional AI context appears in the course and identify which modules, levels, or subject areas have no coverage.", "Build relationships with industry partners who can speak to AI's role in their work - alumni are often the most accessible route.", "Review your programme specification against the AI expectations of relevant accreditation bodies - the APT Subject Guide covers this for your discipline."] },
+      { level: 3, summary: "Good alignment exists - focus on currency and explicit learning outcome mapping.", actions: ["Review the professional alignment content annually - AI in most professions is changing fast enough that content from 2023 or 2024 may already be outdated.", "Map professional AI competencies explicitly to module learning outcomes - this strengthens accreditation evidence and makes the rationale clear to students.", "Review APT Package 8 for the most current data on how AI is transforming roles in your sector, the labour market, and accreditation expectations."] },
+      { level: 4, summary: "Your professional alignment is strong - focus on maintaining currency and contributing to sector conversations.", actions: ["Contribute to professional body discussions about AI competency frameworks - Westminster's expertise in this area could shape sector-wide standards.", "Establish a regular (annual) industry advisory input specifically focused on AI developments in the profession.", "Use the course's strong professional alignment as a recruitment and accreditation asset - make it visible in programme marketing."] }
+    ]
+  },
+  {
+    id: "staff",
+    title: "Staff Confidence and Development",
+    desc: "How confident and capable the course team is in using AI tools themselves, integrating them into teaching, and staying current as the technology evolves.",
+    color: "#1E7E34",
+    aptRef: "Packages 2, 3 & 7",
+    levels: [
+      { name: "Unaware", tag: "tag-1", desc: "Most colleagues in the team have limited experience with AI tools. Significant anxiety or resistance exists. No professional development in AI has been undertaken." },
+      { name: "Emerging", tag: "tag-2", desc: "A minority of colleagues are actively using AI tools. Most colleagues have tried AI tools but do not use them regularly in their teaching practice. Some CPD has been undertaken individually." },
+      { name: "Developing", tag: "tag-3", desc: "Most colleagues are comfortable using AI tools for at least some teaching and research tasks. The APT course has been completed by most team members. Collective CPD is happening." },
+      { name: "Embedded", tag: "tag-4", desc: "The whole team uses AI tools confidently and regularly. AI CPD is part of the team's annual development planning. Colleagues actively share knowledge and model AI use for students." }
+    ],
+    findings: [
+      { level: 1, summary: "Building staff confidence is the foundational step - without it, everything else is difficult to achieve.", actions: ["Prioritise completing the APT course for all team members - this is the most direct route to building shared confidence and a common language.", "Create a safe, non-judgemental space for colleagues to share anxieties and questions about AI - a 'no silly questions' team session can shift the atmosphere significantly.", "Encourage colleagues to try Westminster's approved AI tools (Blackboard AI Design Assistant, Microsoft Copilot, Grammarly) for simple, low-stakes tasks first - generating a discussion prompt or drafting a rubric."] },
+      { level: 2, summary: "A core of confident users exists - the challenge is spreading confidence across the whole team.", actions: ["Identify the colleagues who are most confident with AI and create structured opportunities for them to share their practice with the rest of the team.", "Set a team goal: all colleagues complete the APT course by the end of the current academic year and discuss their reflections at a team meeting.", "Explore Package 7 of the APT course as a team - the Westminster-specific tools (Blackboard AI Design Assistant, AVA, LearnWise) are practical starting points for colleagues who are uncertain about where to begin."] },
+      { level: 3, summary: "Good team confidence exists - focus on deepening practice and building in ongoing development.", actions: ["Establish AI as a standing item in team CPD planning - at least one AI-focused development activity per year for the team.", "Encourage colleagues to experiment with more advanced uses of AI tools: AVA feedback summarisation, Blackboard AI Conversations, LearnWise module assistants.", "Attend the annual ATLAS event at Westminster and bring insights back to the course team."] },
+      { level: 4, summary: "Your team's AI confidence is strong - focus on innovation, sharing, and mentoring.", actions: ["Consider presenting the team's AI integration work at the next ATLAS event or through the Westminster AI SIG.", "Establish a peer mentoring arrangement with a course team from another school to share good practice across the University.", "Review the JISC National AI Centre's AI Literacy Curriculum for Teaching and Learning annually to keep development planning current."] }
+    ]
+  }
+];
+
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+let scores = {};
+let currentPage = 0; // 0 = intro, 1-6 = dimensions
+
+// ─────────────────────────────────────────
+// FUNCTIONS
+// ─────────────────────────────────────────
+function startDiagnostic() {
+  document.getElementById('page-intro').classList.add('hidden');
+  document.getElementById('diagnostic-pages').classList.remove('hidden');
+  renderDimension(0);
+  updateProgress();
+}
+
+function renderDimension(idx) {
+  const dim = dimensions[idx];
+  const prev = idx > 0;
+  const isLast = idx === dimensions.length - 1;
+  const selectedScore = scores[dim.id] || 0;
+
+  const html = `
+    <div class="dim-card">
+      <div class="dim-header">
+        <div class="dim-badge" style="background:${dim.color};">${idx+1}</div>
+        <div class="dim-title-block">
+          <div class="dim-number">Dimension ${idx+1} of 6</div>
+          <div class="dim-title">${dim.title}</div>
+          <div class="dim-desc">${dim.desc}</div>
+        </div>
+      </div>
+      <div class="levels">
+        ${dim.levels.map((lv, li) => `
+          <div class="level-option">
+            <input type="radio" name="dim_${dim.id}" id="lv_${dim.id}_${li}" value="${li+1}" ${selectedScore === li+1 ? 'checked' : ''} onchange="setScore('${dim.id}', ${li+1})">
+            <label class="level-label" for="lv_${dim.id}_${li}">
+              <span class="level-tag ${lv.tag}">Level ${li+1} - ${lv.name}</span>
+              <div class="level-desc">${lv.desc}</div>
+            </label>
+          </div>
+        `).join('')}
+      </div>
+      <div class="nav-row">
+        ${prev ? `<button class="btn btn-secondary" onclick="goToDimension(${idx-1})">← Back</button>` : '<span></span>'}
+        ${isLast
+          ? `<button class="btn btn-gold" id="generateBtn" onclick="generateReport()" ${Object.keys(scores).length < 6 ? 'disabled' : ''}>Generate my report →</button>`
+          : `<button class="btn btn-primary" onclick="goToDimension(${idx+1})" ${!scores[dim.id] ? 'disabled' : ''} id="nextBtn_${idx}">Next dimension →</button>`
+        }
+      </div>
+    </div>
+  `;
+  document.getElementById('diagnostic-pages').innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setScore(dimId, val) {
+  scores[dimId] = val;
+  updateProgress();
+  // Enable next/generate button
+  const idx = dimensions.findIndex(d => d.id === dimId);
+  const nextBtn = document.getElementById(`nextBtn_${idx}`);
+  if (nextBtn) nextBtn.disabled = false;
+  const genBtn = document.getElementById('generateBtn');
+  if (genBtn) genBtn.disabled = Object.keys(scores).length < 6;
+}
+
+function goToDimension(idx) {
+  currentPage = idx;
+  renderDimension(idx);
+  updateProgress();
+}
+
+function updateProgress() {
+  const done = Object.keys(scores).length;
+  const pct = (done / 6) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = `${done} / 6 dimensions`;
+  const labels = ['Getting started', 'Dimension 1 complete', 'Dimension 2 complete', 'Dimension 3 complete', 'Dimension 4 complete', 'Dimension 5 complete', 'All dimensions complete'];
+  document.getElementById('progressLabel').textContent = labels[done] || `${done} dimensions complete`;
+}
+
+function generateReport() {
+  document.getElementById('diagnostic-pages').classList.add('hidden');
+  const reportEl = document.getElementById('report-section');
+  reportEl.style.display = 'block';
+
+  const courseName = document.getElementById('courseName').value || 'Course';
+  const leaderName = document.getElementById('leaderName').value || 'Course Leader';
+  const schoolName = document.getElementById('schoolName').value || 'School';
+  const teamSize = document.getElementById('teamSize').value;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  document.getElementById('report-title').textContent = `Course Compass Report - ${courseName}`;
+  document.getElementById('report-subtitle').textContent = `${leaderName} · ${schoolName}${teamSize ? ' · ' + teamSize : ''} · ${dateStr}`;
+  document.getElementById('reportDate').textContent = dateStr;
+
+  // Overall score
+  const total = dimensions.reduce((s, d) => s + (scores[d.id] || 1), 0);
+  const avg = (total / 6).toFixed(1);
+  document.getElementById('overallScoreNum').textContent = avg;
+  let band = '';
+  if (avg < 1.5) band = 'Early stage - significant development needed across most dimensions';
+  else if (avg < 2.5) band = 'Emerging - good foundations, key gaps to address';
+  else if (avg < 3.5) band = 'Developing - strong progress, focus on embedding and deepening';
+  else band = 'Embedded - leading practice, focus on innovation and sharing';
+  document.getElementById('overallBand').textContent = band;
+
+  // Legend
+  const legendHtml = dimensions.map(d => `
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${d.color};"></div>
+      <div class="legend-text">${d.title}</div>
+      <div class="legend-score" style="color:${d.color};">${scores[d.id] || 1}/4</div>
+    </div>
+  `).join('');
+  document.getElementById('chartLegend').innerHTML = legendHtml;
+
+  // Radar chart
+  drawRadar();
+
+  // Dim results
+  let dimHtml = '';
+  dimensions.forEach((d, i) => {
+    const score = scores[d.id] || 1;
+    const finding = d.findings[score - 1];
+    const levelName = d.levels[score - 1].name;
+    const tagClass = ['tag-1','tag-2','tag-3','tag-4'][score-1];
+    const tagColors = ['#C0392B','#B7770D','#2E5FA3','#1E7E34'];
+    const tagBgs = ['#FDECEA','#FFF3CD','#D6E4F0','#EAF4EA'];
+    dimHtml += `
+      <div class="dim-result">
+        <div class="dim-result-header" onclick="toggleDim('dim_res_${i}')">
+          <div class="dim-result-badge" style="background:${d.color};">${i+1}</div>
+          <div class="dim-result-title">${d.title}</div>
+          <span class="dim-result-level" style="background:${tagBgs[score-1]};color:${tagColors[score-1]};">Level ${score} - ${levelName}</span>
+        </div>
+        <div class="dim-result-body" id="dim_res_${i}">
+          <p><strong>Summary:</strong> ${finding.summary}</p>
+          <p><strong>Suggested actions:</strong></p>
+          <ul class="action-list">
+            ${finding.actions.map(a => `<li>${a} <span class="apt-link">APT ${d.aptRef}</span></li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById('dimResults').innerHTML = dimHtml;
+
+  // Priority tags (lowest scoring dimensions)
+  const sorted = [...dimensions].sort((a,b) => (scores[a.id]||1) - (scores[b.id]||1));
+  const priorities = sorted.slice(0, 3);
+  const priorityHtml = priorities.map(d => `<span class="priority-tag" style="background:${d.color};">${d.title} (Level ${scores[d.id]||1})</span>`).join('');
+  document.getElementById('priorityTags').innerHTML = priorityHtml;
+
+  const avgP = (priorities.reduce((s,d) => s+(scores[d.id]||1), 0)/3).toFixed(1);
+  const gap = Number(avg) - Number(avgP);
+  document.getElementById('prioritySummary').textContent = `These three dimensions average Level ${avgP}, against an overall course profile of Level ${avg}${(gap >= 0.5 && Number(avgP) < 3) ? ' - a gap wide enough that these areas are pulling against the rest of your profile' : ''}. They represent the most impactful areas for your course team to focus on first. Addressing these will have the greatest effect on the overall coherence and quality of your course's AI integration.`;
+
+  // Next steps
+  const nextStepsHtml = `
+    <div style="background:var(--navy-light);border-radius:var(--radius);padding:20px;margin-bottom:16px;">
+      <p style="font-size:14px;color:var(--text);margin-bottom:8px;"><strong>Immediate next steps (within 4 weeks):</strong></p>
+      <ul class="action-list">
+        <li>Schedule a dedicated course team AI review meeting - use the Course Compass report as the agenda.</li>
+        <li>Ensure all course team colleagues complete the APT course individually, then reconvene to discuss collective implications.</li>
+        <li>Share this report with your Head of School as evidence of your team's proactive engagement with AI integration.</li>
+      </ul>
+    </div>
+    <div style="background:var(--green-light);border-radius:var(--radius);padding:20px;margin-bottom:16px;">
+      <p style="font-size:14px;color:var(--text);margin-bottom:8px;"><strong>Westminster resources to draw on:</strong></p>
+      <ul class="action-list">
+        <li>University of Westminster AI Policy (November 2025) - the policy framework for all AI use</li>
+        <li>APT Course Packages 1-8 - individual and team learning resources</li>
+        <li>Westminster AI Blog (blog.westminster.ac.uk/ai) - current updates and community of practice</li>
+        <li>ATLAS AI Special Interest Group - termly events and peer support</li>
+        <li>LIDE Team - learning innovation and digital education support</li>
+        <li>GenAI contact: genai@westminster.ac.uk</li>
+      </ul>
+    </div>
+    <div style="background:var(--gold-light);border-radius:var(--radius);padding:20px;">
+      <p style="font-size:14px;color:var(--text);margin-bottom:8px;"><strong>Suggested review cycle:</strong></p>
+      <p style="font-size:14px;color:var(--text-mid);">We recommend retaking the Course Compass diagnostic annually - ideally at the start of the academic year as part of annual programme review. The AI landscape, student behaviour, and professional body expectations are all changing fast enough that your maturity profile can shift significantly within 12 months.</p>
+    </div>
+  `;
+  document.getElementById('nextSteps').innerHTML = nextStepsHtml;
+
+  // References
+  const refsHtml = `
+    <div style="background:var(--off-white);border:1px solid var(--grey-mid);border-radius:var(--radius);padding:20px;">
+      <p style="font-size:13px;color:var(--text-mid);margin-bottom:14px;font-style:italic;">The recommendations in this report are grounded in the following peer-reviewed research, institutional guidance, and sector evidence. Sources are organised by the dimension they primarily support.</p>
+
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px;">Student AI use and the scale of the challenge (all dimensions)</p>
+      <ul class="action-list" style="margin-bottom:10px;">
+        <li>Stephenson, R. and Armstrong, C. (2026). Student Generative Artificial Intelligence Survey 2026. HEPI Report 199. Higher Education Policy Institute. https://www.hepi.ac.uk/reports/student-generative-ai-survey-2026/</li>
+        <li>Freeman, J. (2025). Student Generative AI Survey 2025. HEPI Policy Note 61. Higher Education Policy Institute. https://www.hepi.ac.uk/reports/student-generative-ai-survey-2025/</li>
+        <li>PwC (2026). 2026 Global AI Jobs Barometer. PricewaterhouseCoopers. https://www.pwc.com/gx/en/services/ai/ai-jobs-barometer.html</li>
+      </ul>
+
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px;">Awareness - AI capabilities and higher education impacts</p>
+      <ul class="action-list" style="margin-bottom:10px;">
+        <li>Crompton, H. and Burke, D. (2023). Artificial intelligence in higher education: the state of the field. International Journal of Educational Technology in Higher Education, 20(22). https://doi.org/10.1186/s41239-023-00392-8</li>
+        <li>UNESCO (2025). AI and the Future of Education: Disruptions, Dilemmas and Directions. https://ciddl.org/summary-of-unesco-ai-and-the-future-of-education/</li>
+        <li>ASC Office of Distance Education, Ohio State University (2025). Agentic AI in Higher Education. https://ascode.osu.edu/news/agentic-ai-higher-education</li>
+      </ul>
+
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px;">Policy - institutional AI governance</p>
+      <ul class="action-list" style="margin-bottom:10px;">
+        <li>University of Westminster (2025). Artificial Intelligence Policy. Approved by University Executive Board, October 2025. Published November 2025. https://www.westminster.ac.uk/sites/default/public-files/general-documents/AI-policy-november-2025.pdf</li>
+        <li>HEPI (2026). What UK university AI policies actually do: A study of 96 institutions. Higher Education Policy Institute. https://www.hepi.ac.uk/reports/what-uk-university-ai-policies-actually-do-a-study-of-96-institutions/</li>
+        <li>Wilson, T.D. (2025). The development of policies on generative artificial intelligence in UK universities. Information Research. https://doi.org/10.1177/03400352251333796</li>
+      </ul>
+
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px;">Assessment - redesign for the AI era</p>
+      <ul class="action-list" style="margin-bottom:10px;">
+        <li>El Khoury, E. (2025). Two Years of Generative AI in Higher Education: The Seven Waves of Assessment and GenAI. The Assessment Review, CUNY. https://assessatcuny.commons.gc.cuny.edu/2025/10/two-years-of-generative-artificial-intelligence-in-higher-education-the-seven-waves-of-assessment-and-genai/</li>
+        <li>Winkelmes, M.A. et al. (2016). A Teaching Intervention that Increases Underserved College Students' Success. Peer Review, 18(1/2). https://tilthighered.com</li>
+        <li>QAA (2024). Guidance on supporting student AI literacy. Quality Assurance Agency. https://www.qaa.ac.uk/the-quality-code/supporting-resources/artificial-intelligence</li>
+        <li>Guan, Q. and Han, Y. (2025). Evaluating the Effectiveness and Ethical Implications of AI Detection Tools in Higher Education. Information, 16(10), 905. https://www.mdpi.com/2078-2489/16/10/905</li>
+      </ul>
+
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px;">Student AI literacy - developing graduate competency</p>
+      <ul class="action-list" style="margin-bottom:10px;">
+        <li>JISC National AI Centre (2025). AI Literacy Curriculum for Teaching and Learning. https://nationalaicentre.jisc.ac.uk/</li>
+        <li>Kosmyna, N. et al. (2024). Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant for Essay Writing Task. MIT Media Lab. https://doi.org/10.48550/arXiv.2506.08872</li>
+        <li>Gerlich, M. (2025). AI Tools in Society: Impacts on Cognitive Offloading and the Future of Critical Thinking. Societies, 15(1), 6. https://www.mdpi.com/2075-4698/15/1/6</li>
+        <li>Stephany, F., Teutloff, O. and Leone, A. (2026). AI Skills Improve Job Prospects: Causal Evidence from a Hiring Experiment. Oxford Internet Institute. https://arxiv.org/pdf/2601.13286</li>
+      </ul>
+
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px;">Professional alignment - accreditation and sector expectations</p>
+      <ul class="action-list" style="margin-bottom:10px;">
+        <li>AACSB (2026). A Framework for Artificial Intelligence in Business Education. https://www.aacsb.edu/insights/reports/2026/a-framework-for-artificial-intelligence-in-business-education</li>
+        <li>AACSB (2025). State of Accreditation Report. https://www.aacsb.edu/insights/reports/2025/state-of-accreditation</li>
+        <li>IMF (2026). Bridging Skill Gaps for the Future: New Jobs Creation in the AI Age. SDN/2026/001. https://www.imf.org/en/publications/staff-discussion-notes/issues/2026/01/09/bridging-skill-gaps-for-the-future-new-jobs-creation-in-the-ai-age-572136</li>
+      </ul>
+
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px;">Staff confidence and development - CPD frameworks</p>
+      <ul class="action-list" style="margin-bottom:10px;">
+        <li>Frontiers in Education (2026). The evolving role of higher education teachers in the age of AI. https://doi.org/10.3389/feduc.2026.1813497</li>
+        <li>ResearchGate (2025). The Impact of Generative AI Tools on Academic Performance in Higher Education: A Systematic Review 2023-2025. https://www.researchgate.net/publication/398994828</li>
+        <li>Advance HE. AI in Higher Education resources. https://www.advance-he.ac.uk/</li>
+        <li>Alan Turing Institute. AI and data science learning resources. https://www.turing.ac.uk/research/research-programmes/ai-and-data-science/education-and-training</li>
+      </ul>
+    </div>
+  `;
+  document.getElementById('referencesSection').innerHTML = refsHtml;
+
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressLabel').textContent = 'Report generated';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleDim(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function drawRadar() {
+  const canvas = document.getElementById('radarChart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2, r = Math.min(W,H)/2 - 40;
+  const n = dimensions.length;
+  ctx.clearRect(0,0,W,H);
+
+  // Grid circles
+  for (let level = 1; level <= 4; level++) {
+    ctx.beginPath();
+    ctx.strokeStyle = level === 4 ? '#C8CDD8' : '#E8ECF4';
+    ctx.lineWidth = 1;
+    const gr = r * (level/4);
+    for (let i = 0; i <= n; i++) {
+      const angle = (i/n) * 2 * Math.PI - Math.PI/2;
+      const x = cx + gr * Math.cos(angle);
+      const y = cy + gr * Math.sin(angle);
+      i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  // Spokes
+  for (let i = 0; i < n; i++) {
+    const angle = (i/n) * 2 * Math.PI - Math.PI/2;
+    ctx.beginPath();
+    ctx.strokeStyle = '#C8CDD8';
+    ctx.lineWidth = 1;
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+    ctx.stroke();
+  }
+
+  // Data polygon
+  ctx.beginPath();
+  dimensions.forEach((d, i) => {
+    const score = scores[d.id] || 1;
+    const angle = (i/n) * 2 * Math.PI - Math.PI/2;
+    const dr = r * (score/4);
+    const x = cx + dr * Math.cos(angle);
+    const y = cy + dr * Math.sin(angle);
+    i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(31,56,100,0.15)';
+  ctx.strokeStyle = '#1F3864';
+  ctx.lineWidth = 2.5;
+  ctx.fill();
+  ctx.stroke();
+
+  // Dots
+  dimensions.forEach((d, i) => {
+    const score = scores[d.id] || 1;
+    const angle = (i/n) * 2 * Math.PI - Math.PI/2;
+    const dr = r * (score/4);
+    const x = cx + dr * Math.cos(angle);
+    const y = cy + dr * Math.sin(angle);
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2*Math.PI);
+    ctx.fillStyle = d.color;
+    ctx.fill();
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  });
+
+  // Labels
+  ctx.font = '11px Segoe UI, Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const shortLabels = ['Awareness','Policy','Assessment','AI Literacy','Professional','Staff CPD'];
+  dimensions.forEach((d, i) => {
+    const angle = (i/n) * 2 * Math.PI - Math.PI/2;
+    const labelR = r + 28;
+    const x = cx + labelR * Math.cos(angle);
+    const y = cy + labelR * Math.sin(angle);
+    ctx.fillStyle = d.color;
+    ctx.font = 'bold 11px Segoe UI, Arial, sans-serif';
+    ctx.fillText(shortLabels[i], x, y);
+    ctx.fillStyle = '#6B7280';
+    ctx.font = '11px Segoe UI, Arial, sans-serif';
+    ctx.fillText(`(${scores[d.id]||1}/4)`, x, y+13);
+  });
+}
+
+function restartTool() {
+  scores = {};
+  currentPage = 0;
+  document.getElementById('report-section').style.display = 'none';
+  document.getElementById('page-intro').classList.remove('hidden');
+  document.getElementById('diagnostic-pages').classList.add('hidden');
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('progressLabel').textContent = 'Getting started';
+  document.getElementById('progressCount').textContent = '0 / 6 dimensions';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
