@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APT Course Compass - Course Team AI Maturity Diagnostic</title>
+<title>APTL Course Compass - Course Team AI Maturity Diagnostic</title>
 <style>
   :root {
     --navy: #1F3864;
@@ -156,8 +156,6 @@
     .report { display: block !important; }
     .dim-result-body { display: block !important; }
     body { background: white; }
-    /* force background colours to print - without this the navy header,
-       priority tags and score badges print as white-on-white and vanish */
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     .progress-bar-wrap, .progress-label { display: none; }
     .dim-result, .priority-section, .chart-section { break-inside: avoid; page-break-inside: avoid; }
@@ -169,20 +167,20 @@
 <div class="header">
   <div class="header-inner">
     <div class="apt-badge">
-      <span class="apt-logo">APT</span>
-      <span class="apt-sub">AI Partnered Teaching</span>
+      <span class="apt-logo">APTL</span>
+      <span class="apt-sub">AI Partnered Teaching and Learning</span>
     </div>
     <h1>Course Compass - Course Team AI Maturity Diagnostic</h1>
     <p>A structured self-assessment tool for course leaders and their teams at the University of Westminster</p>
     <div class="partner-strip">
-      <span class="partner-pill p-pill" title="Package 1: Introduction to AI in Higher Education - understand AI’s transformative impact on higher education and what it may mean for your role as an educator">P Prepare</span>
+      <span class="partner-pill p-pill" title="Package 1: Introduction to AI in Higher Education - understand AI's transformative impact on higher education and what it may mean for your role as an educator">P Prepare</span>
       <span class="partner-pill a-pill" title="Package 2: Foundations of Effective Teaching and Learning - ground AI integration in the principles that help to define good education">A Anchor</span>
       <span class="partner-pill r-pill" title="Package 3: Integrating AI into Teaching Practices - put AI into practice by exploring its capabilities, limitations, and concrete applications">R Realise</span>
       <span class="partner-pill t-pill" title="Package 4: Redesigning Courses and Assessments for the AI Era - redesign courses and assessments to be more meaningful, rigorous, and relevant">T Transform</span>
       <span class="partner-pill n-pill" title="Package 5: Academic Integrity and AI Policies - explore academic integrity, institutional policy, and the ethical dimensions of AI use">N Navigate</span>
       <span class="partner-pill e-pill" title="Package 6: The Future of AI in Education - look ahead to emerging AI developments and commit to continuous professional growth">E Evolve</span>
-      <span class="partner-pill r2-pill" title="Package 7: AI Tools for Teaching and Learning - learn about Westminster’s supported AI tools and how to use them confidently and responsibly">R Resources</span>
-      <p class="partner-note">PARTNER is the framework behind the APT course: seven elements of AI-informed teaching practice, one package for each, plus a subject-specific package for your school. Hover any element to see what it covers.</p>
+      <span class="partner-pill r2-pill" title="Package 7: AI Tools for Teaching and Learning - learn about Westminster's supported AI tools and how to use them confidently and responsibly">R Resources</span>
+      <p class="partner-note">PARTNER is the framework behind the APTL course: seven elements of AI-informed teaching practice, one package for each, plus a subject-specific package for your school. Hover any element to see what it covers.</p>
     </div>
   </div>
 </div>
@@ -199,9 +197,9 @@
 
   <!-- INTRO -->
   <div id="page-intro" class="intro-card">
-    <h2>Welcome to the APT Course Compass</h2>
+    <h2>Welcome to the APTL Course Compass</h2>
     <p>This diagnostic helps your course team understand where you currently are in integrating AI into your curriculum, and what to prioritise next. It covers six key dimensions of course-level AI maturity and takes approximately 20-30 minutes to complete as a team discussion.</p>
-    <p>The tool generates a personalised report with a maturity profile, priority areas, and specific suggested actions linked to Westminster resources and the APT course packages.</p>
+    <p>The tool generates a personalised report with a maturity profile, priority areas, and specific suggested actions linked to Westminster resources and the APTL course packages.</p>
     <div class="how-to">
       <strong>How to use this tool:</strong> Work through each dimension as a team - ideally with your course leader facilitating a brief discussion before selecting the level that best describes where your course currently sits. Be honest; the value is in accurate diagnosis, not in selecting the most flattering option.
     </div>
@@ -289,7 +287,7 @@
       <div id="referencesSection"></div>
     </div>
     <div class="wbs-footer">
-      University of Westminster · AI Partnered Teaching (APT) · Course Compass · Generated <span id="reportDate"></span>
+      University of Westminster · AI Partnered Teaching and Learning (APTL) · Course Compass · Generated <span id="reportDate"></span>
     </div>
     <div class="print-btn nav-row" style="justify-content:flex-end;">
       <button class="btn btn-secondary" onclick="window.print()">🖨 Print / Save as PDF</button>
@@ -317,9 +315,9 @@ const dimensions = [
       { name: "Embedded", tag: "tag-4", desc: "The team has a detailed, discipline-specific understanding of AI's role, including how it is used in the relevant profession. Student AI use is regularly monitored and discussed." }
     ],
     findings: [
-      { level: 1, summary: "Your team is at the start of its AI awareness journey.", actions: ["Schedule a course team meeting specifically to discuss AI - what it is, what students are doing with it, and what it means for your discipline. APT Package 1 provides a good briefing.", "Ask colleagues to complete the APT course individually as a first step - this will build a shared baseline of understanding across the team.", "Complete Package 8 of the APT course - the subject-specific package for your discipline."] },
-      { level: 2, summary: "Awareness exists but is unevenly distributed across the team.", actions: ["Identify one or two colleagues who are most engaged with AI and ask them to share their knowledge at a team meeting - a 20-minute briefing can shift the whole team.", "Complete APT Package 1 as a team discussion activity, using the reflection questions to surface different perspectives.", "Use the HEPI 2026 Student Generative AI Survey data (95% of students using AI) as a conversation starter about the scale of the challenge."] },
-      { level: 3, summary: "The team has good shared awareness - the challenge now is deepening discipline-specific understanding.", actions: ["Go beyond general AI awareness to discipline-specific AI literacy: how is AI being used in your profession? The APT Subject Guide for your discipline is a starting point.", "Invite a practitioner from your discipline to discuss AI's role in the workplace at a team event.", "Review APT Package 6 for emerging developments - agentic AI and reasoning models are the next frontier that team awareness should extend to."] },
+      { level: 1, summary: "Your team is at the start of its AI awareness journey.", actions: ["Schedule a course team meeting specifically to discuss AI - what it is, what students are doing with it, and what it means for your discipline. APTL Package 1 provides a good briefing.", "Ask colleagues to complete the APTL course individually as a first step - this will build a shared baseline of understanding across the team.", "Complete Package 8 of the APTL course for your discipline."] },
+      { level: 2, summary: "Awareness exists but is unevenly distributed across the team.", actions: ["Identify one or two colleagues who are most engaged with AI and ask them to share their knowledge at a team meeting - a 20-minute briefing can shift the whole team.", "Complete APTL Package 1 as a team discussion activity, using the reflection questions to surface different perspectives.", "Use the HEPI 2026 Student Generative AI Survey data (95% of students using AI) as a conversation starter about the scale of the challenge."] },
+      { level: 3, summary: "The team has good shared awareness - the challenge now is deepening discipline-specific understanding.", actions: ["Go beyond general AI awareness to discipline-specific AI literacy: how is AI being used in your profession? Complete Package 8 of the APTL course for discipline-specific context.", "Invite a practitioner from your discipline to discuss AI's role in the workplace at a team event.", "Review APTL Package 6 for emerging developments - agentic AI and reasoning models are the next frontier that team awareness should extend to."] },
       { level: 4, summary: "Your team has strong awareness - focus on keeping it current as the landscape evolves.", actions: ["Establish a regular (termly) 'AI update' item on course team agendas to maintain currency.", "Contribute your team's knowledge to the wider Westminster community via the ATLAS AI Special Interest Group.", "Consider whether your discipline-specific AI awareness could be formalised as part of the course's graduate attribute framework."] }
     ]
   },
@@ -336,8 +334,8 @@ const dimensions = [
       { name: "Embedded", tag: "tag-4", desc: "A clear, documented course-level AI policy exists, is consistently applied across all modules, and is reviewed annually. Students receive a single coherent message at induction and in all module handbooks." }
     ],
     findings: [
-      { level: 1, summary: "Inconsistency in AI policy is a significant risk for student experience and academic integrity.", actions: ["Make course-level AI policy a standing agenda item at the next two course team meetings - the goal is a single short position statement that all colleagues adopt.", "Read and circulate Westminster's AI Policy (November 2025) and the Guidance to Students on GenAI - these provide the baseline framework you need.", "Review APT Package 5 for a clear framing of the key policy questions: what counts as significant AI assistance, what disclosure is required, and what constitutes misconduct."] },
-      { level: 2, summary: "Good intent exists - the priority is turning discussion into a documented shared position.", actions: ["Draft a single-page Course AI Position Statement using the Westminster AI Policy as the framework. Bring it to the next team meeting for agreement.", "Agree consistent disclosure language to embed in all module handbooks - APT Package 5 provides suggested wording.", "Contact the University's LIDE team or the GenAI SIG for support in developing course-level AI guidance."] },
+      { level: 1, summary: "Inconsistency in AI policy is a significant risk for student experience and academic integrity.", actions: ["Make course-level AI policy a standing agenda item at the next two course team meetings - the goal is a single short position statement that all colleagues adopt.", "Read and circulate Westminster's AI Policy (November 2025) and the Guidance to Students on GenAI - these provide the baseline framework you need.", "Review APTL Package 5 for a clear framing of the key policy questions: what counts as significant AI assistance, what disclosure is required, and what constitutes misconduct."] },
+      { level: 2, summary: "Good intent exists - the priority is turning discussion into a documented shared position.", actions: ["Draft a single-page Course AI Position Statement using the Westminster AI Policy as the framework. Bring it to the next team meeting for agreement.", "Agree consistent disclosure language to embed in all module handbooks - APTL Package 5 provides suggested wording.", "Contact the University's LIDE team or the GenAI SIG for support in developing course-level AI guidance."] },
       { level: 3, summary: "You have a course-level position - the focus now is on embedding it fully and making it student-facing.", actions: ["Review whether your AI policy is clearly visible to students in induction materials, all module handbooks, and assessment briefs - not just in one place.", "Ensure all colleagues are actively applying the policy consistently - a brief team discussion at the start of each academic year helps.", "Build in an annual review of the policy in line with the Westminster AI Policy review cycle."] },
       { level: 4, summary: "Your policy framework is strong - focus on quality and currency.", actions: ["Share your course AI policy approach with the Westminster AI SIG as a model for other course teams.", "Ensure the policy is reviewed in light of any updates to the Westminster AI Policy (most recently November 2025).", "Consider whether your policy could be enhanced by incorporating student voice - consulting students on AI expectations builds shared ownership."] }
     ]
@@ -355,8 +353,8 @@ const dimensions = [
       { name: "Embedded", tag: "tag-4", desc: "All assessments have been reviewed through an AI lens. The course has a healthy mix of AI-resistant and AI-integrated assessments, with a clear rationale for each. Assessment design is reviewed annually." }
     ],
     findings: [
-      { level: 1, summary: "Assessment vulnerability to AI is the most urgent challenge for the course team to address.", actions: ["Begin with an honest audit: go through each assessment on the course and ask 'could a current AI tool (GPT-5, Claude, Gemini) substantially complete this without meaningful student engagement?' This audit alone often shifts team perspective.", "Focus first on your highest-stakes assessments - final year projects, dissertations, major coursework - and prioritise redesign there.", "Review APT Package 4 for a practical framework for assessment redesign, including the AI-Resistant Assignment Briefing Checklist."] },
-      { level: 2, summary: "Individual colleagues are doing good work - the challenge is making this systematic and shared.", actions: ["Establish a formal course-level assessment review as part of your next annual programme review, with AI vulnerability as an explicit criterion.", "Share what individual colleagues have already done - a 15-minute show-and-tell at a team meeting can rapidly spread good practice.", "Use the CUNY 'Seven Waves' framework (referenced in APT Package 4) to give the team a common language for where different assessments currently sit."] },
+      { level: 1, summary: "Assessment vulnerability to AI is the most urgent challenge for the course team to address.", actions: ["Begin with an honest audit: go through each assessment on the course and ask 'could a current AI tool (GPT-5, Claude, Gemini) substantially complete this without meaningful student engagement?' This audit alone often shifts team perspective.", "Focus first on your highest-stakes assessments - final year projects, dissertations, major coursework - and prioritise redesign there.", "Review APTL Package 4 for a practical framework for assessment redesign, including the AI-Resistant Assignment Briefing Checklist."] },
+      { level: 2, summary: "Individual colleagues are doing good work - the challenge is making this systematic and shared.", actions: ["Establish a formal course-level assessment review as part of your next annual programme review, with AI vulnerability as an explicit criterion.", "Share what individual colleagues have already done - a 15-minute show-and-tell at a team meeting can rapidly spread good practice.", "Use the CUNY 'Seven Waves' framework (referenced in APTL Package 4) to give the team a common language for where different assessments currently sit."] },
       { level: 3, summary: "Good progress has been made - focus on completing the review and building in sustainability.", actions: ["Complete the review of any remaining unreformed assessments, prioritising those identified as most vulnerable in your audit.", "Introduce AI-integrated assessments alongside AI-resistant ones - ask students to critically evaluate AI-generated outputs as part of an assessed task.", "Document the rationale for each assessment design decision so that new colleagues joining the team can understand the approach."] },
       { level: 4, summary: "Your assessment framework is strong - focus on ongoing quality and innovation.", actions: ["Share your assessment redesign approach at the ATLAS event or through the Westminster AI SIG.", "Explore more innovative assessment formats: real-time oral examination of AI use, process portfolios, live client projects.", "Review assessments annually against the capabilities of current AI models - what was AI-resistant in 2024 may not be in 2026."] }
     ]
@@ -374,7 +372,7 @@ const dimensions = [
       { name: "Embedded", tag: "tag-4", desc: "AI literacy is a formal graduate attribute of the course, developed progressively across all years. Students graduate with demonstrated ability to use AI responsibly, critically, and professionally in their discipline." }
     ],
     findings: [
-      { level: 1, summary: "Developing student AI literacy is both a graduate employability imperative and a curriculum design priority.", actions: ["Add a session on AI literacy to Year 1 induction - what it is, what the university's expectations are, and what it means for their career. APT Package 1 provides the briefing material.", "Frame AI literacy explicitly as an employability skill in course documentation - the PwC 2026 data (62% wage premium for AI-skilled workers) is a compelling argument for students.", "Review APT Package 6 for the student AI literacy development framework, including practical strategies for fostering critical engagement with AI tools."] },
+      { level: 1, summary: "Developing student AI literacy is both a graduate employability imperative and a curriculum design priority.", actions: ["Add a session on AI literacy to Year 1 induction - what it is, what the university's expectations are, and what it means for their career. APTL Package 1 provides the briefing material.", "Frame AI literacy explicitly as an employability skill in course documentation - the PwC 2026 data (62% wage premium for AI-skilled workers) is a compelling argument for students.", "Review APTL Package 6 for the student AI literacy development framework, including practical strategies for fostering critical engagement with AI tools."] },
       { level: 2, summary: "Good foundations exist in individual modules - the challenge is building progression across the course.", actions: ["Map where AI literacy is currently addressed across the course and identify the gaps - where is it absent in Years 2 and 3?", "Design a progressive AI literacy framework: foundational awareness in Year 1, critical application in Year 2, professional integration in Year 3.", "Connect AI literacy to discipline-specific professional requirements - AACSB, AMBA, and EQUIS all now expect this."] },
       { level: 3, summary: "AI literacy is developing well - focus on formalising it as a graduate attribute and building in progression.", actions: ["Formalise AI literacy as a named graduate attribute in the course specification and map it explicitly to learning outcomes.", "Ensure AI literacy assessment is included somewhere in the course - students should be able to evidence this competency.", "Use the JISC AI Literacy Curriculum for Teaching and Learning (2025) as a framework for reviewing the depth and breadth of your provision."] },
       { level: 4, summary: "Your AI literacy provision is exemplary - focus on sharing and continuing to innovate.", actions: ["Consider whether your approach to student AI literacy could be written up as a case study for Westminster or sector-wide sharing.", "Review the JISC National AI Centre resources annually to ensure your AI literacy framework reflects current best practice.", "Involve students in reviewing and co-designing the AI literacy elements of the course - student voice adds credibility and ownership."] }
@@ -385,7 +383,7 @@ const dimensions = [
     title: "Professional and Sector Alignment",
     desc: "Whether the course reflects how AI is actually being used in the relevant profession or sector, and whether this is made explicit to students.",
     color: "#633806",
-    aptRef: "Package 8 & Subject Guide",
+    aptRef: "Package 8",
     levels: [
       { name: "Unaware", tag: "tag-1", desc: "The course does not address AI's role in the relevant profession. Curriculum content and learning outcomes do not reflect AI-driven changes in the sector." },
       { name: "Emerging", tag: "tag-2", desc: "Some awareness of AI in the profession exists in the team, but this is not systematically reflected in curriculum content, guest speakers, or learning outcomes." },
@@ -393,9 +391,9 @@ const dimensions = [
       { name: "Embedded", tag: "tag-4", desc: "The course has a live, current picture of AI in the profession, updated regularly through industry engagement. AI-relevant professional competencies are formally mapped to learning outcomes and assessments." }
     ],
     findings: [
-      { level: 1, summary: "Students are preparing for a profession that is being transformed by AI - the curriculum needs to reflect this.", actions: ["Complete Package 8 of the APT course for your discipline - it provides an evidence-based overview of how AI is transforming your sector.", "Add one session per year to each level of the course on AI in the profession - this can be delivered by a visiting practitioner.", "Review learning outcomes against current professional body expectations - AACSB, AMBA, SRA, RIBA, and others are now explicitly addressing AI in accreditation standards."] },
-      { level: 2, summary: "Individual awareness exists - the challenge is making this systematic across the curriculum.", actions: ["Map where professional AI context appears in the course and identify which modules, levels, or subject areas have no coverage.", "Build relationships with industry partners who can speak to AI's role in their work - alumni are often the most accessible route.", "Review your programme specification against the AI expectations of relevant accreditation bodies - the APT Subject Guide covers this for your discipline."] },
-      { level: 3, summary: "Good alignment exists - focus on currency and explicit learning outcome mapping.", actions: ["Review the professional alignment content annually - AI in most professions is changing fast enough that content from 2023 or 2024 may already be outdated.", "Map professional AI competencies explicitly to module learning outcomes - this strengthens accreditation evidence and makes the rationale clear to students.", "Review APT Package 8 for the most current data on how AI is transforming roles in your sector, the labour market, and accreditation expectations."] },
+      { level: 1, summary: "Students are preparing for a profession that is being transformed by AI - the curriculum needs to reflect this.", actions: ["Complete Package 8 of the APTL course for your discipline - it provides an evidence-based overview of how AI is transforming your sector.", "Add one session per year to each level of the course on AI in the profession - this can be delivered by a visiting practitioner.", "Review learning outcomes against current professional body expectations - AACSB, AMBA, SRA, RIBA, and others are now explicitly addressing AI in accreditation standards."] },
+      { level: 2, summary: "Individual awareness exists - the challenge is making this systematic across the curriculum.", actions: ["Map where professional AI context appears in the course and identify which modules, levels, or subject areas have no coverage.", "Build relationships with industry partners who can speak to AI's role in their work - alumni are often the most accessible route.", "Review your programme specification against the AI expectations of relevant accreditation bodies - APTL Package 8 covers this for your discipline."] },
+      { level: 3, summary: "Good alignment exists - focus on currency and explicit learning outcome mapping.", actions: ["Review the professional alignment content annually - AI in most professions is changing fast enough that content from 2023 or 2024 may already be outdated.", "Map professional AI competencies explicitly to module learning outcomes - this strengthens accreditation evidence and makes the rationale clear to students.", "Review APTL Package 8 for the most current data on how AI is transforming roles in your sector, the labour market, and accreditation expectations."] },
       { level: 4, summary: "Your professional alignment is strong - focus on maintaining currency and contributing to sector conversations.", actions: ["Contribute to professional body discussions about AI competency frameworks - Westminster's expertise in this area could shape sector-wide standards.", "Establish a regular (annual) industry advisory input specifically focused on AI developments in the profession.", "Use the course's strong professional alignment as a recruitment and accreditation asset - make it visible in programme marketing."] }
     ]
   },
@@ -408,12 +406,12 @@ const dimensions = [
     levels: [
       { name: "Unaware", tag: "tag-1", desc: "Most colleagues in the team have limited experience with AI tools. Significant anxiety or resistance exists. No professional development in AI has been undertaken." },
       { name: "Emerging", tag: "tag-2", desc: "A minority of colleagues are actively using AI tools. Most colleagues have tried AI tools but do not use them regularly in their teaching practice. Some CPD has been undertaken individually." },
-      { name: "Developing", tag: "tag-3", desc: "Most colleagues are comfortable using AI tools for at least some teaching and research tasks. The APT course has been completed by most team members. Collective CPD is happening." },
+      { name: "Developing", tag: "tag-3", desc: "Most colleagues are comfortable using AI tools for at least some teaching and research tasks. The APTL course has been completed by most team members. Collective CPD is happening." },
       { name: "Embedded", tag: "tag-4", desc: "The whole team uses AI tools confidently and regularly. AI CPD is part of the team's annual development planning. Colleagues actively share knowledge and model AI use for students." }
     ],
     findings: [
-      { level: 1, summary: "Building staff confidence is the foundational step - without it, everything else is difficult to achieve.", actions: ["Prioritise completing the APT course for all team members - this is the most direct route to building shared confidence and a common language.", "Create a safe, non-judgemental space for colleagues to share anxieties and questions about AI - a 'no silly questions' team session can shift the atmosphere significantly.", "Encourage colleagues to try Westminster's approved AI tools (Blackboard AI Design Assistant, Microsoft Copilot, Grammarly) for simple, low-stakes tasks first - generating a discussion prompt or drafting a rubric."] },
-      { level: 2, summary: "A core of confident users exists - the challenge is spreading confidence across the whole team.", actions: ["Identify the colleagues who are most confident with AI and create structured opportunities for them to share their practice with the rest of the team.", "Set a team goal: all colleagues complete the APT course by the end of the current academic year and discuss their reflections at a team meeting.", "Explore Package 7 of the APT course as a team - the Westminster-specific tools (Blackboard AI Design Assistant, AVA, LearnWise) are practical starting points for colleagues who are uncertain about where to begin."] },
+      { level: 1, summary: "Building staff confidence is the foundational step - without it, everything else is difficult to achieve.", actions: ["Prioritise completing the APTL course for all team members - this is the most direct route to building shared confidence and a common language.", "Create a safe, non-judgemental space for colleagues to share anxieties and questions about AI - a 'no silly questions' team session can shift the atmosphere significantly.", "Encourage colleagues to try Westminster's approved AI tools (Blackboard AI Design Assistant, Microsoft Copilot, Grammarly) for simple, low-stakes tasks first - generating a discussion prompt or drafting a rubric."] },
+      { level: 2, summary: "A core of confident users exists - the challenge is spreading confidence across the whole team.", actions: ["Identify the colleagues who are most confident with AI and create structured opportunities for them to share their practice with the rest of the team.", "Set a team goal: all colleagues complete the APTL course by the end of the current academic year and discuss their reflections at a team meeting.", "Explore Package 7 of the APTL course as a team - the Westminster-specific tools (Blackboard AI Design Assistant, AVA, LearnWise) are practical starting points for colleagues who are uncertain about where to begin."] },
       { level: 3, summary: "Good team confidence exists - focus on deepening practice and building in ongoing development.", actions: ["Establish AI as a standing item in team CPD planning - at least one AI-focused development activity per year for the team.", "Encourage colleagues to experiment with more advanced uses of AI tools: AVA feedback summarisation, Blackboard AI Conversations, LearnWise module assistants.", "Attend the annual ATLAS event at Westminster and bring insights back to the course team."] },
       { level: 4, summary: "Your team's AI confidence is strong - focus on innovation, sharing, and mentoring.", actions: ["Consider presenting the team's AI integration work at the next ATLAS event or through the Westminster AI SIG.", "Establish a peer mentoring arrangement with a course team from another school to share good practice across the University.", "Review the JISC National AI Centre's AI Literacy Curriculum for Teaching and Learning annually to keep development planning current."] }
     ]
@@ -562,7 +560,7 @@ function generateReport() {
           <p><strong>Summary:</strong> ${finding.summary}</p>
           <p><strong>Suggested actions:</strong></p>
           <ul class="action-list">
-            ${finding.actions.map(a => `<li>${a} <span class="apt-link">APT ${d.aptRef}</span></li>`).join('')}
+            ${finding.actions.map(a => `<li>${a} <span class="apt-link">APTL ${d.aptRef}</span></li>`).join('')}
           </ul>
         </div>
       </div>
@@ -586,7 +584,7 @@ function generateReport() {
       <p style="font-size:14px;color:var(--text);margin-bottom:8px;"><strong>Immediate next steps (within 4 weeks):</strong></p>
       <ul class="action-list">
         <li>Schedule a dedicated course team AI review meeting - use the Course Compass report as the agenda.</li>
-        <li>Ensure all course team colleagues complete the APT course individually, then reconvene to discuss collective implications.</li>
+        <li>Ensure all course team colleagues complete the APTL course individually, then reconvene to discuss collective implications.</li>
         <li>Share this report with your Head of School as evidence of your team's proactive engagement with AI integration.</li>
       </ul>
     </div>
@@ -594,7 +592,7 @@ function generateReport() {
       <p style="font-size:14px;color:var(--text);margin-bottom:8px;"><strong>Westminster resources to draw on:</strong></p>
       <ul class="action-list">
         <li>University of Westminster AI Policy (November 2025) - the policy framework for all AI use</li>
-        <li>APT Course Packages 1-8 - individual and team learning resources</li>
+        <li>APTL Course Packages 1-8 - individual and team learning resources</li>
         <li>Westminster AI Blog (blog.westminster.ac.uk/ai) - current updates and community of practice</li>
         <li>ATLAS AI Special Interest Group - termly events and peer support</li>
         <li>LIDE Team - learning innovation and digital education support</li>
