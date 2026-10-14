@@ -36,7 +36,9 @@
 
   /* HEADER */
   .header { background: var(--navy); color: white; padding: 36px 60px 30px; }
-  .header-inner { width: 100%; }
+  .header-inner { width: 100%; display: flex; justify-content: space-between; align-items: flex-start; }
+  .header-main { flex: 1; }
+  .beta-pill { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35); color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; margin-top: 4px; flex-shrink: 0; }
   .apt-badge { display: inline-flex; align-items: baseline; gap: 14px; margin-bottom: 10px; }
   .apt-logo { font-size: 38px; font-weight: 700; letter-spacing: -1px; color: white; }
   .apt-sub { font-size: 15px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -176,6 +178,7 @@
 
 <div class="header">
   <div class="header-inner">
+    <div class="header-main">
     <div class="apt-badge">
       <span class="apt-logo">APTL</span>
       <span class="apt-sub">AI Partnered Teaching and Learning</span>
@@ -192,6 +195,8 @@
       <span class="partner-pill r2-pill" title="Package 7: AI Tools for Teaching and Learning - learn about Westminster's supported AI tools and how to use them confidently and responsibly">R Resources</span>
       <p class="partner-note">PARTNER is the framework behind the APTL course: seven elements of AI-informed teaching practice, one package for each, plus a subject-specific package for your school. Hover over any element to see what it covers.</p>
     </div>
+    </div>
+    <span class="beta-pill">Beta</span>
   </div>
 </div>
 
@@ -213,6 +218,7 @@
     <div class="how-to">
       <strong>How to use this tool:</strong> Work through each dimension as a team - ideally with your course leader facilitating a brief discussion before selecting the level that best describes where your course currently sits. Be honest; the value is in accurate diagnosis, not in selecting the most flattering option.
     </div>
+    <p style="font-size:13px;color:var(--grey-dark);margin-top:14px;margin-bottom:0;">🔒 <strong>Privacy notice:</strong> This tool does not collect or store any data. All responses exist only within your browser during this session and are permanently discarded when you close or refresh the page.</p>
 
     <div style="margin-top:24px;">
       <div class="field-group">
